@@ -1,6 +1,6 @@
 import boto3
 import uuid
-from .s3Config import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_BUCKET_NAME
+from .s3Config import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_BUCKET_NAME, AWS_S3_DOMAIN
 
 def s3_connection():
     try:
@@ -21,7 +21,5 @@ def saveImageToS3(uploadFile, state):
     key = f"{state}/{fname}" # 사진이 저장될 경로 설정
     s3r = s3_connection()
     s3r.Bucket(AWS_S3_BUCKET_NAME).put_object(Key=key, Body=uploadFile.read(), ContentType=fileFormat)
-    imageUrl = s3r.AWS_S3_DOMAIN+key
-    print(imageUrl)
+    imageUrl = AWS_S3_DOMAIN+key
     return imageUrl
-
