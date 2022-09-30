@@ -21,5 +21,5 @@ def saveImageToS3(uploadFile, state):
     key = f"{state}/{fname}" # 사진이 저장될 경로 설정
     s3r = s3_connection()
     s3r.Bucket(AWS_S3_BUCKET_NAME).put_object(Key=key, Body=uploadFile.read(), ContentType=fileFormat)
-    imageUrl = AWS_S3_DOMAIN+key
-    return imageUrl
+    imageKey = key
+    return imageKey

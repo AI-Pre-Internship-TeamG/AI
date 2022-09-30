@@ -33,13 +33,14 @@ input_image_path: str = None
 def process():
     input = request.form
     origin_image_url = input["fname"]
-    slice_origin_image = origin_image_url[54:]
+    slice_origin_image = origin_image_url[53:]
     origin_image = get_image(slice_origin_image)
     image, alpha_channel = load_img(origin_image)
     interpolation = cv2.INTER_CUBIC
 
     mask_image_url = input["mask"]
-    slice_mask_image = mask_image_url[54:]
+    slice_mask_image = mask_image_url[53:]
+    print(slice_mask_image)
     mask_image = get_image(slice_mask_image)
     mask, _ = load_img(mask_image, gray=True)
 
@@ -76,9 +77,9 @@ def process():
     f = io.BytesIO(numpy_to_bytes(res_np_img, 'png'))
     c = str(uuid.uuid4())
     inpaint_image = FileStorage(f, c, name='file', content_type='image/png')
-    inpaint_image = saveImageToS3(inpaint_image,'result')
+    imageKey = saveImageToS3(inpaint_image,'result')
 
-    return inpaint_image
+    return imageKey
 
 def main(args):
     global model
